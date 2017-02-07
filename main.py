@@ -1,5 +1,7 @@
+import machine
 from machine import Pin, I2C
 import time, network
+from umqtt.simple import MQTTClient
 
 def getvalues():  #returns list with the xyz components
 	out = []
@@ -11,6 +13,10 @@ def getvalues():  #returns list with the xyz components
 				value -= 1024
 		out.append(value)
 	return out
+
+#x:\t<xval>\ty:\t<yval>\tz:\t<zval>	
+def
+
 	
 def printvalues():
 	fred = getvalues()
@@ -29,12 +35,24 @@ i2c.writeto_mem(24,0x20,b'\x47')
 time.sleep_ms(100)
 
 #connect to network
-#sta_if = network.WLAN(network.STA_IF); sta_if.active(True)
-#sta_if.scan()
+sta_if = network.WLAN(network.STA_IF); sta_if.active(True)
+sta_if.connect("EEERover","exhibition")
+while sta_if.isconnected() == False:
+	time.sleep_ms(10)
+print("Connected to network")
+
+#set up MQTT
+
+client=MQTTClient(machine.unique_id(),"192.168.0.10")
+client.connect()
+while True:
+	client.publish("esys/<team_little_boots>/hello",bytes(str(getvalues()[0]),'utf-8'))
+	time.sleep(1)
+
 
 #main running loop
-while True:
-	printvalues()
+
+
 
 
 """  #memory dump code, do not delete, was v useful for debugging memory perhaps it should be turned into a functio
@@ -42,7 +60,4 @@ for i in range(0x07, 0x3f):
 	data = str(hex(i)) + " " + str(i2c.readfrom_mem(24,i,1))
 	print(data)
 	#time.sleep(5)
-
 """
-
-
