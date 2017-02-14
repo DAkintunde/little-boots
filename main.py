@@ -13,20 +13,20 @@ AP_NAME="EEERover"
 TASKLIST
 Deji
 Do all the conversion stuff	
-
 Adem
 Do all the sensor interface stuff
-
 Fran
 Do all the broker stuff
-
 """
 
 #function definitions
 def button_press(): #Returns true if button press event detected
 
 	return
-	
+
+def measureLight(): #returns raw value from ADC input with LDR
+	i2c.writeto_mem(deviceList[1],0x01,b'\xc1\x03')
+	return i2c.readfrom_mem(deviceList[1],0x00,2)
 
 
 
@@ -40,7 +40,6 @@ rtc.datetime((2017, 5, 1, 4, 13, 0, 0, 0))
 #setup i2c
 i2c = I2C(scl = Pin(5), sda = Pin(4), freq = 100000)
 deviceList = i2c.scan() #deviceList[0] = accelerometer, deviceList[1] = ADC
-	
 
 
 while True:
@@ -50,6 +49,8 @@ while True:
 		if(rtc.datetime()[5]>=10):
 			#check temperature and light intensity
 				#read the temperature and light intensity
+				#lightData = measureLight()
+				#tempData = measureTemp()
 				#decode the ADC value into a real value
 				#convert into JSON
 			#sends it to broker
@@ -76,9 +77,6 @@ while True:
 		if button_press()==True:
 			GUARD_ON=True
 		
-	
-	
-	
 	
 	
 	
