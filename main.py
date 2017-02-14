@@ -14,8 +14,8 @@ def printADCvalues(): #for debugging purposes only
 def convertADCtoVoltage(data): #needs work, currently not functioning quite right
 	value = data[1] + ((0x7f & data[0])<<8)
 	if (data[0] > 0x8000):
-		value -= 0x10000
-	truevalue = 5*float(value)/0x8000
+		value -= 0x8000
+	truevalue = 6.144*float(value)/0x8000
 	return truevalue
 	
 def getaccelvalues():  #returns list with the xyz components
@@ -64,20 +64,28 @@ time.sleep_ms(100)
 """
 
 #tell ADC to go into single shot mode
-i2c.writeto_mem(deviceList[1],0x01,b'\x84\x03')
-i2c.writeto(deviceList[1],b'\x00')
-"""
-#connectToNetwork("EEERover","exhibition")
+i2c.writeto_mem(deviceList[1],0x01,b'\xc0\x03') #sets up the ADC
+i2c.writeto(deviceList[1],b'\x00') 
 
+#accelerometer interrupt
+#i2c.writeto_mem(deviceList[0],0x21,b'\  #sets up the interrupt
+
+
+
+
+#connectToNetwork("EEERover","exhibition")
 #set up MQTT
 client=MQTTClient(machine.unique_id(),"192.168.0.10")
 client.connect()
-"""
+
 """	client.publish("esys/<team_little_boots>/hello",str(outputXYZtoJSON(getvalues()),'utf-8'))
-time.sleep(1)
 """
+
+
 while True:
-	printADCvalues()
-	time.sleep(1)
+	#printADCvalues()
+	#time.sleep(1)
+
+
 	
 	
