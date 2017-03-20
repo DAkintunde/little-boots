@@ -1,0 +1,17 @@
+Ticker for angle incrementation
+Ticker for PWM
+PWM function
+Conversion between rotations per second and angle step 
+- angle step = rot/s * (num divisions in circle) / step frequency (10Hz?)
+Function that converts angle to coil number and PWM threshold
+
+Make the PWM 10x as fast as the step
+
+Globals
+Angle
+Coil Number
+Threshold
+PWM Counter
+Global rotation progress counter
+
+
